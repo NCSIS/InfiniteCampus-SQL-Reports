@@ -1,5 +1,5 @@
 /*
-	Title: Update unknown absences to 2L code
+	Title: Update unknown absences to 2A code
 	
 	Description:
 	Query that can run as a scheduled task daily to update all unknown absences to a "2A" code. 
