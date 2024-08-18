@@ -73,10 +73,12 @@ stu.gender,
 CAST(stu.birthdate AS DATE) as birthdate --Change the birthdate DateTime field to just a date.
 FROM student stu,
 calendar cal,
-school sch
+school sch,
+schoolyear yr
 WHERE cal.calendarId=stu.calendarId
 AND sch.schoolID=cal.SchoolID
-AND cal.startDate<=GETDATE() AND cal.endDate>=GETDATE() --Get only calendars for the current year
+AND cal.endYear=yr.endYear
+AND yr.active=1
 AND (stu.endDate IS NULL or stu.endDate>=GETDATE()) --Get students with no end-date or future-dated end date
 ORDER BY lastName, firstName, middleName;
 ```
