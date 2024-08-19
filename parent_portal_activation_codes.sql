@@ -11,6 +11,7 @@
 
 */
 
+--Without Homeroom
 
 SELECT
 	d.name AS district_name,
@@ -49,3 +50,40 @@ ORDER BY
 	student_last,
 	student_first,
 	guardian_relationship
+
+--With Homeroom
+
+SELECT DISTINCT
+	d.name AS district_name,
+	c.name AS calendar_name,
+	s.name AS school_name,
+	hrm.teacherDisplay as homeroom_teacher,
+	stu.firstname AS student_first,
+	stu.lastname AS student_last,
+	stu.grade AS grade_level,
+	cc.firstName AS guardian_first_name,
+	cc.lastname AS guardian_last_name,
+	cc.email AS guardian_email,
+	cc.relationship AS guardian_relationship,
+	pp.personGUID AS activation_code
+FROM
+	student stu LEFT JOIN v_studentHomeroom hrm ON (stu.personID=hrm.studentPersonID AND stu.calendarID=hrm.calendarID),
+	district d,
+	calendar c,
+	school s,
+	v_CensusContactSummary cc,
+	person pp,
+	schoolYear sy
+WHERE
+	stu.personid = cc.personID
+	AND d.districtID = stu.districtId
+	AND c.calendarID = stu.calendarID
+	AND s.schoolID = c.schoolID
+	AND cc.personID = stu.personID
+	AND pp.personID = cc.contactPersonID
+	AND c.endYear=sy.endYear
+	AND sy.active=1
+	AND (stu.endDate IS NULL
+		OR stu.endDate >= GETDATE ())
+	AND cc.portal = '1'
+	AND cc.email IS NOT NULL
