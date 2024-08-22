@@ -83,8 +83,8 @@ SELECT
 	stu.firstname AS student_first,
 	stu.lastname AS student_last,
 	stu.grade AS grade_level,
-	cc.firstName AS guardian_first_name,
-	cc.lastname AS guardian_last_name,
+	cc.firstName AS contact_first_name,
+	cc.lastname AS contact_last_name,
 	cc.relationship,
 	cc.guardian
 	FROM
